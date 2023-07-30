@@ -9,8 +9,9 @@ from django.contrib.auth.forms import UserCreationForm
 
 def index(request):
     context = {}
-    todo_items = Todo.objects.all()
-    context['todo_items'] = todo_items
+    if request.user.is_authenticated:
+        todo_items = Todo.objects.filter(author=request.user)
+        context['todo_items'] = todo_items
     return render(request, "todo/index.html", context)
 
 def login_to_page(request):
