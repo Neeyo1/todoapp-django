@@ -14,21 +14,21 @@
                 <input type="submit", value="Filter">
             </form>
         </div>
-        <a href="/notes/note/create/?topic={{ topic.id }}">Create new note</a>
+        <a href="/notes/note/create/?topic={{ topic.id }}">Create new todo item</a>
     </div>
     <div class = "right-panel">
         {% if todo_items %}
             {% for todo in todo_items %}
-                <div class = "note">
-                {% if note.is_completed %}
-                    <a href="/notes/note/{{ note.id }}/">{{ note.name }}[closed]</a>
+                <div class = "todo">
+                {% if todo.is_completed %}
+                    <a href="/todo/{{ todo.id }}/">{{ todo.name }}[closed]</a>
                 {% else %}
-                    <a href="/notes/note/{{ note.id }}/">{{ note.name }}</a>
+                    <a href="/todo/{{ todo.id }}/">{{ todo.name }}</a>
                 {% endif %}
                 </div>
             {% endfor %}
         {% else %}
-            <div class = "note">
+            <div class = "todo">
             No notes for this topic are available.
             </div>
         {% endif %}

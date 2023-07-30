@@ -43,7 +43,7 @@ body{
     text-align: center;
 }
 
-.topic, .note{
+.todo{
     font-size: 20px;
     min-height:40px;
     width:100%;
@@ -63,7 +63,7 @@ body{
     padding-bottom: 5px;
 }
 
-.topic:nth-child(2n), .note:nth-child(2n), .comment:nth-child(2n){
+.todo:nth-child(2n){
     background-color: #F5F5DC;
 }
 
