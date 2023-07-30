@@ -2,6 +2,19 @@
 {% block content %}
 <div>
     <div class = "left-panel">
+        <div class = "account">
+            {% if request.user.is_authenticated %}
+                <div>
+                    Hi {{ request.user }}
+                </div>
+                <div>
+                    <a href="/logout/">Logout</a>
+                </div>
+            {% else %}
+            <a href="/login/">Login</a>
+            <a href="/register/">Register</a>
+            {% endif%}
+        </div>
         <div class = "search-bar">
             <h3>Filter</h3>
             <form method="GET", action="">

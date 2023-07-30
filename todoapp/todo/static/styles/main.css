@@ -9,8 +9,8 @@ body{
 
 .account{
     border-bottom: 2px solid black;
-    height:50px;
-    width:50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .navbar > a{
