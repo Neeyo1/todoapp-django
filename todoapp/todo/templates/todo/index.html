@@ -19,9 +19,21 @@
             <h3>Filter</h3>
             <form method="GET", action="">
                 <select name="type">
-                    <option>All</option>
-                    <option>Open</option>
-                    <option>Closed</option>
+                    {% if q_todo == 'Open' %}
+                        <option>All</option>
+                        <option selected="selected">Open</option>
+                        <option>Closed</option>
+                    {% else %}
+                        {% if q_todo == 'Closed' %}
+                            <option>All</option>
+                            <option>Open</option>
+                            <option selected="selected">Closed</option>
+                        {% else %}
+                            <option selected="selected">All</option>
+                            <option>Open</option>
+                            <option>Closed</option>
+                        {% endif%}
+                    {% endif %}
                 </select>
                 <br/>
                 <input type="submit", value="Filter">

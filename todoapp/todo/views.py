@@ -10,8 +10,19 @@ from django.contrib.auth.forms import UserCreationForm
 def index(request):
     context = {}
     if request.user.is_authenticated:
-        todo_items = Todo.objects.filter(author=request.user)
-        context['todo_items'] = todo_items
+        #todo_items = Todo.objects.filter(author=request.user)
+        q_todo = request.GET.get('type') or ''
+        if q_todo in ('All', ''):
+            todo_items = Todo.objects.filter(author=request.user)
+        elif q_todo == 'Open':
+            todo_items = Todo.objects.filter(author=request.user, completed=False)
+        elif q_todo == 'Closed':   
+            todo_items = Todo.objects.filter(author=request.user, completed=True)
+        try:
+            context['todo_items'] = todo_items
+            context['q_todo'] = q_todo
+        except:
+            pass
     return render(request, "todo/index.html", context)
 
 def login_to_page(request):
