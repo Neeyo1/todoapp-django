@@ -1,4 +1,37 @@
 {% extends 'todo/template.html' %}
 {% block content %}
-Hello
+<div>
+    <div class = "left-panel">
+        <div class = "search-bar">
+            <h3>Filter</h3>
+            <form method="GET", action="">
+                <select name="type">
+                    <option>All</option>
+                    <option>Open</option>
+                    <option>Closed</option>
+                </select>
+                <br/>
+                <input type="submit", value="Filter">
+            </form>
+        </div>
+        <a href="/notes/note/create/?topic={{ topic.id }}">Create new note</a>
+    </div>
+    <div class = "right-panel">
+        {% if todo_items %}
+            {% for todo in todo_items %}
+                <div class = "note">
+                {% if note.is_completed %}
+                    <a href="/notes/note/{{ note.id }}/">{{ note.name }}[closed]</a>
+                {% else %}
+                    <a href="/notes/note/{{ note.id }}/">{{ note.name }}</a>
+                {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class = "note">
+            No notes for this topic are available.
+            </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock content %}

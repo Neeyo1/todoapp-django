@@ -7,6 +7,12 @@ body{
     height:50px;
 }
 
+.account{
+    border-bottom: 2px solid black;
+    height:50px;
+    width:50px;
+}
+
 .navbar > a{
     font-size: 30px;
     display: flex;
