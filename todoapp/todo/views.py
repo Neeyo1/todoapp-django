@@ -29,6 +29,9 @@ def index(request):
 def todo_detail(request, todo_id):
     context = {}
     todo = get_object_or_404(Todo, pk=todo_id)
+    if not todo.public:
+        if request.user != todo.author:
+            return HttpResponse("Todo is private")
     context["todo"] = todo
     return render(request, "todo/todo_detail.html", context)
 
@@ -90,6 +93,21 @@ def todo_complete(request, todo_id):
     context["object_to_complete"] = todo
     return render(request, "todo/complete_form.html", context)
 
+def todo_public_private(request, todo_id):
+    context = {}
+    todo = get_object_or_404(Todo, pk=todo_id)
+
+    if request.user != todo.author:
+        return HttpResponse("You are not author of this note")
+    
+    if request.method == "POST":
+        todo.public = not todo.public
+        todo.save()
+        return HttpResponseRedirect(f"/todo/{todo.id}")
+
+    context["object_to_public_private"] = todo
+    return render(request, "todo/public_private_form.html", context)
+
 def login_to_page(request):
     context = {}
     if request.method == "POST":
@@ -131,7 +149,10 @@ def register_to_page(request):
 def profile(request, user_id):
     context = {}
     user = get_object_or_404(User, pk=user_id)
-    activities = Todo.objects.filter(author=user_id)
+    if request.user == user:
+        activities = Todo.objects.filter(author=user_id)
+    else:
+        activities = Todo.objects.filter(author=user_id, public=True)
     context["user"] = user
     context["activities"] = activities
     return render(request, "todo/profile.html", context)

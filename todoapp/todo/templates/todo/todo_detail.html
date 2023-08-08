@@ -18,24 +18,35 @@
         {% if request.user == todo.author %}
             <a href="/todo/edit/{{ todo.id}}">Edit todo</a>
             <a href="/todo/delete/{{ todo.id}}">Delete todo</a>
+            <br/>
             {% if todo.is_completed %}
-                <a href="/todo/complete/{{ todo.id}}">Mark todo as uncomplete</a>
+                <a href="/todo/complete/{{ todo.id}}">Mark todo as uncomplete</a><br/>
             {% else %}
-                <a href="/todo/complete/{{ todo.id}}">Mark todo as complete</a>
+                <a href="/todo/complete/{{ todo.id}}">Mark todo as complete</a><br/>
+            {% endif %}
+            {% if todo.is_public %}
+                <a href="/todo/public-private/{{ todo.id}}">Mark todo as private</a>
+            {% else %}
+                <a href="/todo/public-private/{{ todo.id}}">Mark todo as public</a>
             {% endif %}
         {% endif %}
         <hr/>
     </div>
     <div class = "right-panel">
         {% if todo.is_completed %}
-                {{ todo.name }}[closed]<br/>
-            {% else %}
-                {{ todo.name }}<br/>
-            {% endif %}
+            {{ todo.name }}[closed]<br/>
+        {% else %}
+            {{ todo.name }}<br/>
+        {% endif %}
         {{ todo.description }}<br/>
         Created by {{ todo.author }}<br/>
         Created at {{ todo.created_at }}<br/>
-        Last update {{ todo.updated_at }}
+        Last update {{ todo.updated_at }}<br/>
+        {% if todo.is_public %}
+            Status: Public<br/>
+        {% else %}
+            Status: Private<br/>
+        {% endif %}
     </div>
 </div>
 {% endblock content %}

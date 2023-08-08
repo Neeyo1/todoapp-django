@@ -10,9 +10,16 @@ class Todo(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     completed = models.BooleanField(default=False)
+    public = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
     
     def is_completed(self):
         return self.completed
+    
+    def is_public(self):
+        return self.public
+    
+    def is_private(self):
+        return not self.public

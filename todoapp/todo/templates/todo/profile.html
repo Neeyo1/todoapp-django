@@ -24,7 +24,11 @@
             </div>
             <div class="profile-user-info">
                 <p>Username: {{ user.username }}</p>
-                <p>E-mail: {{ user.email }}</p>
+                {% if user.email %}
+                    <p>E-mail: {{ user.email }}</p>
+                {% else %}
+                    <p>E-mail: <i>Not set</i></p>
+                {% endif %}
                 {% if user.first_name %}
                     <p>Name: {{ user.first_name }}</p>
                 {% else %}
