@@ -5,6 +5,7 @@ body{
 .navbar{
     border-bottom: 2px solid black;
     height:50px;
+    display: sticky;
 }
 
 .account{
@@ -26,6 +27,7 @@ body{
     height:90%;
     border-right: 2px solid black;
     margin-right:0;
+    display: sticky;
 }
 
 .right-panel{

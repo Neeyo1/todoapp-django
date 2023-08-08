@@ -1,0 +1,41 @@
+{% extends 'todo/template.html' %}
+{% block content %}
+<div>
+    <div class = "left-panel">
+        <div class = "account">
+            {% if request.user.is_authenticated %}
+                <div>
+                    Hi {{ request.user }}
+                </div>
+                <div>
+                    <a href="/logout/">Logout</a>
+                </div>
+            {% else %}
+            <a href="/login/">Login</a>
+            <a href="/register/">Register</a>
+            {% endif%}
+        </div>
+        {% if request.user == todo.author %}
+            <a href="/todo/edit/{{ todo.id}}">Edit todo</a>
+            <a href="/todo/delete/{{ todo.id}}">Delete todo</a>
+            {% if todo.is_completed %}
+                <a href="/todo/complete/{{ todo.id}}">Mark todo as uncomplete</a>
+            {% else %}
+                <a href="/todo/complete/{{ todo.id}}">Mark todo as complete</a>
+            {% endif %}
+        {% endif %}
+        <hr/>
+    </div>
+    <div class = "right-panel">
+        {% if todo.is_completed %}
+                {{ todo.name }}[closed]<br/>
+            {% else %}
+                {{ todo.name }}<br/>
+            {% endif %}
+        {{ todo.description }}<br/>
+        Created by {{ todo.author }}<br/>
+        Created at {{ todo.created_at }}<br/>
+        Last update {{ todo.updated_at }}
+    </div>
+</div>
+{% endblock content %}

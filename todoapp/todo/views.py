@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Todo
+from .forms import TodoForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
@@ -24,6 +25,70 @@ def index(request):
         except:
             pass
     return render(request, "todo/index.html", context)
+
+def todo_detail(request, todo_id):
+    context = {}
+    todo = get_object_or_404(Todo, pk=todo_id)
+    context["todo"] = todo
+    return render(request, "todo/todo_detail.html", context)
+
+def todo_create(request):
+    context = {}
+    if request.method == "POST":
+        form = TodoForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.author = request.user
+            instance.save()
+            return HttpResponseRedirect("/")
+    else:
+        form = TodoForm()
+    context["form"] = form
+    return render(request, "todo/create_edit_form.html", {"form": form})
+
+def todo_edit(request, todo_id):
+    context = {}
+    todo = get_object_or_404(Todo, pk=todo_id)
+
+    if request.user != todo.author:
+        return HttpResponse("You are not author of this todo")
+
+    form = TodoForm(instance=todo)
+    if request.method == "POST":
+        form = TodoForm(request.POST, instance=todo)
+        if form.is_valid():
+            instance = form.save()
+            return HttpResponseRedirect(f"/todo/{instance.id}/")
+    context["form"] = form
+    return render(request, "todo/create_edit_form.html", context)
+
+def todo_delete(request, todo_id):
+    context = {}
+    todo = get_object_or_404(Todo, pk=todo_id)
+
+    if request.user != todo.author:
+        return HttpResponse("You are not author of this todo")
+
+    if request.method == "POST":
+        todo.delete()
+        return HttpResponseRedirect("/")
+    context["object_to_delete"] = todo
+    return render(request, "todo/delete_form.html", context)
+
+def todo_complete(request, todo_id):
+    context = {}
+    todo = get_object_or_404(Todo, pk=todo_id)
+
+    if request.user != todo.author:
+        return HttpResponse("You are not author of this note")
+    
+    if request.method == "POST":
+        todo.completed = not todo.completed
+        todo.save()
+        return HttpResponseRedirect(f"/todo/{todo.id}")
+
+    context["object_to_complete"] = todo
+    return render(request, "todo/complete_form.html", context)
 
 def login_to_page(request):
     context = {}
