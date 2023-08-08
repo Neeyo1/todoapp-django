@@ -79,3 +79,30 @@ body{
 .comment-info{
     font-size: 15px;
 }
+
+.profile{
+    float:left;
+    width: 84%;
+    height:90%;
+    font-size: 20px;
+}
+
+.profile-info{
+    height: 200px;
+    border-bottom: 2px solid black;
+}
+
+.profile-picture{
+    float: left;
+    width: 200px;
+}
+
+.profile-user-info{
+    width: 100%;
+    height: 100%;
+}
+
+.profile-last-activity{
+    clear: both;
+    width:100%;
+}

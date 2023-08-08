@@ -127,3 +127,11 @@ def register_to_page(request):
             context["form"] = form
             return render(request, "todo/register_form.html", context)
     return render(request, "todo/register_form.html", context)
+
+def profile(request, user_id):
+    context = {}
+    user = get_object_or_404(User, pk=user_id)
+    activities = Todo.objects.filter(author=user_id)
+    context["user"] = user
+    context["activities"] = activities
+    return render(request, "todo/profile.html", context)

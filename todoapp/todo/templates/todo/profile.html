@@ -1,0 +1,52 @@
+{% extends 'todo/template.html' %}
+{% load static %}
+{% block content %}
+<div>
+    <div class = "left-panel">
+        <div class = "account">
+            {% if request.user.is_authenticated %}
+                <div>
+                    Hi {{ request.user }} <a href="/profile/{{ request.user.id }}">Profile</a>
+                </div>
+                <div>
+                    <a href="/logout/">Logout</a>
+                </div>
+            {% else %}
+            <a href="/login/">Login</a>
+            <a href="/register/">Register</a>
+            {% endif%}
+        </div>
+    </div>
+    <div class = "profile">
+        <div class = "profile-info">
+            <div class="profile-picture">
+                <img src="{% static 'profile_pictures/default.jpg' %}" alt="Profile picture">
+            </div>
+            <div class="profile-user-info">
+                <p>Username: {{ user.username }}</p>
+                <p>E-mail: {{ user.email }}</p>
+                {% if user.first_name %}
+                    <p>Name: {{ user.first_name }}</p>
+                {% else %}
+                    <p>Name: <i>Not set</i></p>
+                {% endif %}
+                <p>Joined at: {{ user.date_joined }}</p>
+                <p>Last login: {{ user.last_login|timesince }} ago</p>
+            </div>
+        </div>
+        <div class = "profile-last-activity">
+            {% if activities %}
+                {% for activity in activities %}
+                    <div class = "todo">
+                        <a href="/todo/{{ activity.id }}/">{{ activity.name }}</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class = "todo">
+                No activity of this user is available.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
